@@ -33,7 +33,7 @@
     }
     .question-header {
       display: flex;
-      align-items: center;
+      align-items: center; 
       gap: 12px;
       margin-bottom: 8px;
     }
@@ -43,17 +43,19 @@
       margin: 0;
       letter-spacing: -0.01em;
       flex: 1;
+      line-height: 1.4; 
     }
     .question-header input[type="checkbox"] {
       accent-color: #5970f7;
       width: 18px;
       height: 18px;
       flex-shrink: 0;
+      margin-top: 4px; 
     }
     .question {
       margin-bottom: 20px;
     }
-    .desc {
+    .desc { 
       font-size: 0.98rem;
       color: #697089;
       margin-bottom: 4px;
@@ -90,7 +92,7 @@
     }
     .radio-group {
       margin-bottom: 10px;
-      margin-left: 30px;
+      margin-left: 30px; 
     }
     .radio-group label {
       font-weight: 400;
@@ -126,18 +128,24 @@
       background: #9ca3af;
       cursor: not-allowed;
     }
-    .textarea-container {
+
+    /* Generic visibility classes */
+    .hidden {
       display: none;
-      margin-left: 30px;
     }
-    .textarea-container.show {
-      display: block;
+    .visible {
+      display: block; /* Default display type when shown */
     }
+
+    .textarea-container {
+      /* Styles specific to textarea containers, like margins, can go here if needed */
+      /* e.g., margin-top: 8px; */
+    }
+    
     .error {
       color: #e13b2e;
       font-size: 0.9rem;
       margin-top: 5px;
-      margin-left: 30px;
     }
     .success {
       color: #28a745;
@@ -148,7 +156,7 @@
       border-radius: 8px;
       border: 1px solid #c3e6cb;
     }
-    .form-error {
+    .form-error { 
       color: #e13b2e;
       font-size: 1rem;
       margin-top: 10px;
@@ -172,7 +180,24 @@
     }
     @media (max-width: 700px) {
       .container {
-        padding: 16px 4vw 22px 4vw;
+        padding: 24px 4vw 28px 4vw;
+        margin: 20px auto; 
+      }
+      h1 {
+        font-size: 1.8rem; 
+      }
+      .question-header label {
+        font-size: 0.95rem; 
+      }
+      .radio-group, .textarea-container, .error { /* .textarea-container for consistency if it had margins */
+        margin-left: 0; 
+      }
+       .instructions {
+        margin-bottom: 24px;
+      }
+      button[type="submit"] {
+        width: 100%; 
+        padding: 12px 24px;
       }
     }
   </style>
@@ -187,14 +212,13 @@
       <!-- Skool Queries Post + DM -->
       <div class="form-section">
         <div class="question-header">
-          <label>Skool Queries Post + DM <span style="color:#e13b2e">*</span></label>
+          <label>Did you complete the Skool queries post and direct messages? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="skoolQueries" name="skoolQueries">
         </div>
-        <div class="desc">Did you complete the Skool queries post and direct messages?</div>
-        <div class="textarea-container show" id="skoolQueriesContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
+        <div class="textarea-container hidden" id="skoolQueriesReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
           <textarea name="skoolQueriesReason" maxlength="2000"></textarea>
-          <div class="char-counter" id="skoolQueriesCount">0/2000</div>
+          <div class="char-counter" id="skoolQueriesReasonCount">0/2000</div>
         </div>
         <div class="error" id="skoolQueriesError"></div>
       </div>
@@ -202,11 +226,10 @@
       <!-- New Members Post -->
       <div class="form-section">
         <div class="question-header">
-          <label>New Members Post <span style="color:#e13b2e">*</span></label>
+          <label>Did you post for new members? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="newMembersPostCheck" name="newMembersPostCheck">
         </div>
-        <div class="desc">Did you post for new members?</div>
-        <div id="newMembersRadioContainer" style="display:none;">
+        <div id="newMembersRadioContainer" class="hidden"> <!-- Starts hidden -->
           <div class="radio-group" style="margin-top:7px;">
             <label>
               <input type="radio" name="newMembersType" value="Tuesday Training Post"> Tuesday Training Post
@@ -216,10 +239,10 @@
             </label>
           </div>
         </div>
-        <div class="textarea-container show" id="newMembersPostContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
+        <div class="textarea-container hidden" id="newMembersPostReasonContainer"> <!-- Starts hidden, JS will show if needed -->
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
           <textarea name="newMembersPostReason" maxlength="2000"></textarea>
-          <div class="char-counter" id="newMembersPostCount">0/2000</div>
+          <div class="char-counter" id="newMembersPostReasonCount">0/2000</div>
         </div>
         <div class="error" id="newMembersPostError"></div>
       </div>
@@ -227,14 +250,13 @@
       <!-- New Members DM -->
       <div class="form-section">
         <div class="question-header">
-          <label>New Members DM <span style="color:#e13b2e">*</span></label>
+          <label>Did you send direct messages to new members? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="newMembersDM" name="newMembersDM">
         </div>
-        <div class="desc">Did you send direct messages to new members?</div>
-        <div class="textarea-container show" id="newMembersDMContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
+        <div class="textarea-container hidden" id="newMembersDMReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
           <textarea name="newMembersDMReason" maxlength="2000"></textarea>
-          <div class="char-counter" id="newMembersDMCount">0/2000</div>
+          <div class="char-counter" id="newMembersDMReasonCount">0/2000</div>
         </div>
         <div class="error" id="newMembersDMError"></div>
       </div>
@@ -242,14 +264,13 @@
       <!-- Churned or Cancelling DM -->
       <div class="form-section">
         <div class="question-header">
-          <label>Churned or Cancelling DM <span style="color:#e13b2e">*</span></label>
+          <label>Did you send direct messages to churned or cancelling members? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="churnedDM" name="churnedDM">
         </div>
-        <div class="desc">Did you send direct messages to churned or cancelling members?</div>
-        <div class="textarea-container show" id="churnedDMContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
+        <div class="textarea-container hidden" id="churnedDMReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
           <textarea name="churnedDMReason" maxlength="2000"></textarea>
-          <div class="char-counter" id="churnedDMCount">0/2000</div>
+          <div class="char-counter" id="churnedDMReasonCount">0/2000</div>
         </div>
         <div class="error" id="churnedDMError"></div>
       </div>
@@ -257,14 +278,13 @@
       <!-- Replies to Free Skool Members -->
       <div class="form-section">
         <div class="question-header">
-          <label>Replies to Free Skool Members <span style="color:#e13b2e">*</span></label>
+          <label>Did you reply to free Skool members who responded to the automated message? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="repliesFree" name="repliesFree">
         </div>
-        <div class="desc">Did you reply to free Skool members who responded to the automated message?</div>
-        <div class="textarea-container show" id="repliesFreeContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
+        <div class="textarea-container hidden" id="repliesFreeReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
           <textarea name="repliesFreeReason" maxlength="2000"></textarea>
-          <div class="char-counter" id="repliesFreeCount">0/2000</div>
+          <div class="char-counter" id="repliesFreeReasonCount">0/2000</div>
         </div>
         <div class="error" id="repliesFreeError"></div>
       </div>
@@ -272,14 +292,13 @@
       <!-- Make.com Community -->
       <div class="form-section">
         <div class="question-header">
-          <label>Make.com Community <span style="color:#e13b2e">*</span></label>
+          <label>Did you engage with the Make.com community? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="makeCommunity" name="makeCommunity">
         </div>
-        <div class="desc">Did you engage with the Make.com community?</div>
-        <div class="textarea-container show" id="makeCommunityContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
+        <div class="textarea-container hidden" id="makeCommunityReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
           <textarea name="makeCommunityReason" maxlength="2000"></textarea>
-          <div class="char-counter" id="makeCommunityCount">0/2000</div>
+          <div class="char-counter" id="makeCommunityReasonCount">0/2000</div>
         </div>
         <div class="error" id="makeCommunityError"></div>
       </div>
@@ -287,14 +306,18 @@
       <!-- Make.com Blueprint -->
       <div class="form-section">
         <div class="question-header">
-          <label>Make.com Blueprint <span style="color:#e13b2e">*</span></label>
+          <label>Did you work on the Make.com blueprint for this week? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="makeBlueprint" name="makeBlueprint">
         </div>
-        <div class="desc">Did you work on the Make.com blueprint?</div>
-        <div class="textarea-container show" id="makeBlueprintContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
+        <div class="textarea-container hidden" id="makeBlueprintStatusContainer">
+          <div class="desc" style="font-weight:400;">Explain the status of the blueprint:</div>
+          <textarea name="makeBlueprintStatus" maxlength="2000"></textarea>
+          <div class="char-counter" id="makeBlueprintStatusCount">0/2000</div>
+        </div>
+        <div class="textarea-container hidden" id="makeBlueprintReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
           <textarea name="makeBlueprintReason" maxlength="2000"></textarea>
-          <div class="char-counter" id="makeBlueprintCount">0/2000</div>
+          <div class="char-counter" id="makeBlueprintReasonCount">0/2000</div>
         </div>
         <div class="error" id="makeBlueprintError"></div>
       </div>
@@ -302,14 +325,18 @@
       <!-- n8n Blueprint -->
       <div class="form-section">
         <div class="question-header">
-          <label>n8n Blueprint <span style="color:#e13b2e">*</span></label>
+          <label>Did you work on the n8n blueprint for this week? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="n8nBlueprint" name="n8nBlueprint">
         </div>
-        <div class="desc">Did you work on the n8n blueprint?</div>
-        <div class="textarea-container show" id="n8nBlueprintContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
+        <div class="textarea-container hidden" id="n8nBlueprintStatusContainer">
+          <div class="desc" style="font-weight:400;">Explain the status of the blueprint:</div>
+          <textarea name="n8nBlueprintStatus" maxlength="2000"></textarea>
+          <div class="char-counter" id="n8nBlueprintStatusCount">0/2000</div>
+        </div>
+        <div class="textarea-container hidden" id="n8nBlueprintReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
           <textarea name="n8nBlueprintReason" maxlength="2000"></textarea>
-          <div class="char-counter" id="n8nBlueprintCount">0/2000</div>
+          <div class="char-counter" id="n8nBlueprintReasonCount">0/2000</div>
         </div>
         <div class="error" id="n8nBlueprintError"></div>
       </div>
@@ -317,14 +344,13 @@
       <!-- Sync New Members in Management Board -->
       <div class="form-section">
         <div class="question-header">
-          <label>Sync New Members in Management Board <span style="color:#e13b2e">*</span></label>
+          <label>Did you sync new members to the management board? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="syncManagementBoard" name="syncManagementBoard">
         </div>
-        <div class="desc">Did you sync new members to the management board?</div>
-        <div class="textarea-container show" id="syncManagementBoardContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
+        <div class="textarea-container hidden" id="syncManagementBoardReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
           <textarea name="syncManagementBoardReason" maxlength="2000"></textarea>
-          <div class="char-counter" id="syncManagementBoardCount">0/2000</div>
+          <div class="char-counter" id="syncManagementBoardReasonCount">0/2000</div>
         </div>
         <div class="error" id="syncManagementBoardError"></div>
       </div>
@@ -332,14 +358,18 @@
       <!-- Video post in other groups -->
       <div class="form-section">
         <div class="question-header">
-          <label>Video post in other groups including free <span style="color:#e13b2e">*</span></label>
+          <label>Have you posted video in other groups? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="videoPost" name="videoPost">
         </div>
-        <div class="desc">Have you posted?</div>
-        <div class="textarea-container show" id="videoPostContainer">
-          <div class="desc" style="font-weight:400;">Please explain why:</div>
-          <textarea name="videoPostExplanation" maxlength="2000"></textarea>
-          <div class="char-counter" id="videoPostCount">0/2000</div>
+         <div class="textarea-container hidden" id="videoPostDetailsContainer">
+          <div class="desc" style="font-weight:400;">Share group names and topic you posted:</div>
+          <textarea name="videoPostDetails" maxlength="2000"></textarea>
+          <div class="char-counter" id="videoPostDetailsCount">0/2000</div>
+        </div>
+        <div class="textarea-container hidden" id="videoPostReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
+          <textarea name="videoPostReason" maxlength="2000"></textarea>
+          <div class="char-counter" id="videoPostReasonCount">0/2000</div>
         </div>
         <div class="error" id="videoPostError"></div>
       </div>
@@ -347,29 +377,39 @@
       <!-- Free skool engagement strategy -->
       <div class="form-section">
         <div class="question-header">
-          <label>Free Skool Engagement Strategy</label>
+          <label>What is your idea for today’s Free Skool engagement strategy? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="freeSkoolEngagement" name="freeSkoolEngagement">
         </div>
-        <div class="desc">Did you try or plan any new engagement strategy for the free Skool group?</div>
-        <div class="textarea-container" id="freeSkoolEngagementContainer">
+        <div class="textarea-container hidden" id="freeSkoolEngagementStrategyContainer">
           <div class="desc" style="margin-top:12px;">Please explain or describe your strategy:</div>
           <textarea name="freeSkoolEngagementStrategy" maxlength="2000"></textarea>
-          <div class="char-counter" id="freeSkoolEngagementCount">0/2000</div>
+          <div class="char-counter" id="freeSkoolEngagementStrategyCount">0/2000</div>
         </div>
+         <div class="textarea-container hidden" id="freeSkoolEngagementReasonContainer">
+          <div class="desc" style="margin-top:12px;">If not, please explain why:</div>
+          <textarea name="freeSkoolEngagementReason" maxlength="2000"></textarea>
+          <div class="char-counter" id="freeSkoolEngagementReasonCount">0/2000</div>
+        </div>
+        <div class="error" id="freeSkoolEngagementError"></div>
       </div>
       
       <!-- Paid skool idea -->
       <div class="form-section">
         <div class="question-header">
-          <label>Paid Skool Idea</label>
+          <label>What is your idea for today’s Premium AI Skool? <span style="color:#e13b2e">*</span></label>
           <input type="checkbox" id="paidSkoolIdea" name="paidSkoolIdea">
         </div>
-        <div class="desc">Do you have a new idea or initiative for the paid Skool community?</div>
-        <div class="textarea-container" id="paidSkoolIdeaContainer">
+        <div class="textarea-container hidden" id="paidSkoolIdeaDescriptionContainer">
           <div class="desc" style="margin-top:12px;">Please share your idea or plan:</div>
           <textarea name="paidSkoolIdeaDescription" maxlength="2000"></textarea>
-          <div class="char-counter" id="paidSkoolIdeaCount">0/2000</div>
+          <div class="char-counter" id="paidSkoolIdeaDescriptionCount">0/2000</div>
         </div>
+        <div class="textarea-container hidden" id="paidSkoolIdeaReasonContainer">
+          <div class="desc" style="margin-top:12px;">If not, please explain why:</div>
+          <textarea name="paidSkoolIdeaReason" maxlength="2000"></textarea>
+          <div class="char-counter" id="paidSkoolIdeaReasonCount">0/2000</div>
+        </div>
+        <div class="error" id="paidSkoolIdeaError"></div>
       </div>
 
       <!-- Additional Notes -->
@@ -386,375 +426,321 @@
   </div>
 
   <script>
-    // Character counter function
+    // Utility to update character counter
     function updateCharCount(textarea, counterId) {
-      document.getElementById(counterId).innerText = textarea.value.length + "/2000";
-    }
-
-    // Clear field errors when user starts typing
-    function clearFieldError(fieldId) {
-      const errorDiv = document.getElementById(fieldId + 'Error');
-      const textarea = document.querySelector(`textarea[name="${fieldId}Reason"], textarea[name="${fieldId}Explanation"]`);
-      if (errorDiv) errorDiv.textContent = '';
-      if (textarea) textarea.classList.remove('error-field');
-    }
-
-    // Toggle textarea visibility for checkboxes (reverse logic for special cases)
-    function toggleTextareaReverse(checkboxId, containerId) {
-      const checkbox = document.getElementById(checkboxId);
-      const container = document.getElementById(containerId);
-      
-      if (checkbox.checked) {
-        container.classList.add('show');
-      } else {
-        container.classList.remove('show');
+      const counter = document.getElementById(counterId);
+      if (counter) {
+        counter.innerText = textarea.value.length + "/" + textarea.maxLength;
       }
     }
 
-    // Toggle textarea visibility for checkboxes
-    function toggleTextarea(checkboxId, containerId) {
-      const checkbox = document.getElementById(checkboxId);
-      const container = document.getElementById(containerId);
-      
-      clearFieldError(checkboxId);
-      
-      if (checkbox.checked) {
-        container.classList.remove('show');
-      } else {
-        container.classList.add('show');
-      }
+    // Utility to clear field error and remove error class from textarea(s)
+    function clearFieldError(errorId, textareaNames = []) {
+        const errorDiv = document.getElementById(errorId);
+        if (errorDiv) errorDiv.textContent = '';
+        textareaNames.forEach(name => {
+            const textarea = document.querySelector(`textarea[name="${name}"]`);
+            if (textarea) textarea.classList.remove('error-field');
+        });
     }
+    
+    // Toggle for fields where checking the box shows a "primary" textarea/div, unchecking shows a "reason" textarea.
+    function toggleConditionalElements(checkboxId, primaryElementId, reasonElementId, errorId, primaryTextareaName, reasonTextareaName) {
+        const checkbox = document.getElementById(checkboxId);
+        const primaryElement = document.getElementById(primaryElementId);
+        const reasonElement = document.getElementById(reasonElementId);
 
-    // Special handling for New Members Post
-    function toggleNewMembersPost() {
-      const checkbox = document.getElementById('newMembersPostCheck');
-      const radioContainer = document.getElementById('newMembersRadioContainer');
-      const textareaContainer = document.getElementById('newMembersPostContainer');
-      
-      clearFieldError('newMembersPost');
-      
-      if (checkbox.checked) {
-        radioContainer.style.display = 'block';
-        textareaContainer.classList.remove('show');
-      } else {
-        radioContainer.style.display = 'none';
-        textareaContainer.classList.add('show');
-        // Clear radio selection
-        const radios = document.querySelectorAll('input[name="newMembersType"]');
-        radios.forEach(radio => radio.checked = false);
-      }
-    }
+        clearFieldError(errorId, [primaryTextareaName, reasonTextareaName].filter(Boolean));
 
-    // Special handling for Video Post (same as general toggleTextarea)
-    function toggleVideoPost() {
-      const checkbox = document.getElementById('videoPost');
-      const container = document.getElementById('videoPostContainer');
-      
-      clearFieldError('videoPost');
-      
-      if (checkbox.checked) {
-        container.classList.remove('show');
-      } else {
-        container.classList.add('show');
-      }
-    }
-
-    // Initialize form state and add event listeners
-    document.addEventListener('DOMContentLoaded', function() {
-      // Add event listeners for all checkboxes
-      document.getElementById('skoolQueries').addEventListener('change', function() {
-        toggleTextarea('skoolQueries', 'skoolQueriesContainer');
-      });
-
-      document.getElementById('newMembersPostCheck').addEventListener('change', toggleNewMembersPost);
-
-      document.getElementById('newMembersDM').addEventListener('change', function() {
-        toggleTextarea('newMembersDM', 'newMembersDMContainer');
-      });
-
-      document.getElementById('churnedDM').addEventListener('change', function() {
-        toggleTextarea('churnedDM', 'churnedDMContainer');
-      });
-
-      document.getElementById('repliesFree').addEventListener('change', function() {
-        toggleTextarea('repliesFree', 'repliesFreeContainer');
-      });
-
-      document.getElementById('makeCommunity').addEventListener('change', function() {
-        toggleTextarea('makeCommunity', 'makeCommunityContainer');
-      });
-
-      document.getElementById('makeBlueprint').addEventListener('change', function() {
-        toggleTextarea('makeBlueprint', 'makeBlueprintContainer');
-      });
-
-      document.getElementById('n8nBlueprint').addEventListener('change', function() {
-        toggleTextarea('n8nBlueprint', 'n8nBlueprintContainer');
-      });
-      
-      document.getElementById('syncManagementBoard').addEventListener('change', function() { // New field
-        toggleTextarea('syncManagementBoard', 'syncManagementBoardContainer');
-      });
-
-      document.getElementById('videoPost').addEventListener('change', toggleVideoPost);
-
-      // Reverse logic for these two
-      document.getElementById('freeSkoolEngagement').addEventListener('change', function() {
-        toggleTextareaReverse('freeSkoolEngagement', 'freeSkoolEngagementContainer');
-      });
-
-      document.getElementById('paidSkoolIdea').addEventListener('change', function() {
-        toggleTextareaReverse('paidSkoolIdea', 'paidSkoolIdeaContainer');
-      });
-
-      // Add character counters to all textareas
-      const textareas = document.querySelectorAll('textarea');
-      textareas.forEach(textarea => {
-        const counterId = textarea.parentElement.querySelector('.char-counter')?.id;
-        if (counterId) {
-          // Initialize count on load
-          updateCharCount(textarea, counterId);
-          textarea.addEventListener('input', function() {
-            updateCharCount(this, counterId);
-            this.classList.remove('error-field');
-            // Clear associated error message
-            const name = this.name;
-            let errorId = '';
-            if (name.includes('Reason')) {
-              errorId = name.replace('Reason', '') + 'Error';
-            } else if (name.includes('Explanation')) {
-              errorId = name.replace('Explanation', '') + 'Error';
-            } else if (name === 'freeSkoolEngagementStrategy') {
-                errorId = 'freeSkoolEngagementError'; // No actual error div defined for these, but good practice
-            } else if (name === 'paidSkoolIdeaDescription') {
-                errorId = 'paidSkoolIdeaError'; // No actual error div defined for these
-            }
-
-            // For the new field, to clear its specific error if it had one (though not directly tied to its textarea name like others)
-            if (name === 'syncManagementBoardReason') {
-              errorId = 'syncManagementBoardError';
-            }
-
-            const errorDiv = document.getElementById(errorId);
-            if (errorDiv) errorDiv.textContent = '';
-          });
+        if (checkbox.checked) {
+            primaryElement.classList.remove('hidden');
+            primaryElement.classList.add('visible');
+            reasonElement.classList.add('hidden');
+            reasonElement.classList.remove('visible');
+        } else {
+            primaryElement.classList.add('hidden');
+            primaryElement.classList.remove('visible');
+            reasonElement.classList.remove('hidden');
+            reasonElement.classList.add('visible');
         }
-      });
+    }
+
+    // Toggle for simple "if not checked, explain why" (reason textarea is shown if checkbox is UNCHECKED)
+    function toggleSimpleReasonTextarea(checkboxId, reasonContainerId, errorId, reasonTextareaName) {
+        const checkbox = document.getElementById(checkboxId);
+        const reasonContainer = document.getElementById(reasonContainerId);
+        clearFieldError(errorId, [reasonTextareaName].filter(Boolean));
+
+        if (checkbox.checked) {
+            reasonContainer.classList.add('hidden');
+            reasonContainer.classList.remove('visible');
+        } else {
+            reasonContainer.classList.remove('hidden');
+            reasonContainer.classList.add('visible');
+        }
+    }
+
+    // Special handling for New Members Post (checkbox, radios, reason textarea)
+    function toggleNewMembersPost() {
+        const checkbox = document.getElementById('newMembersPostCheck');
+        const radioContainer = document.getElementById('newMembersRadioContainer');
+        const reasonContainer = document.getElementById('newMembersPostReasonContainer');
+        clearFieldError('newMembersPostError', ['newMembersPostReason']);
+
+        if (checkbox.checked) {
+            radioContainer.classList.remove('hidden');
+            radioContainer.classList.add('visible');
+            reasonContainer.classList.add('hidden');
+            reasonContainer.classList.remove('visible');
+        } else {
+            radioContainer.classList.add('hidden');
+            radioContainer.classList.remove('visible');
+            reasonContainer.classList.remove('hidden');
+            reasonContainer.classList.add('visible');
+            const radios = document.querySelectorAll('input[name="newMembersType"]');
+            radios.forEach(radio => radio.checked = false);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Setup for simple reason toggles ---
+        const simpleReasonFields = [
+            { cb: 'skoolQueries', container: 'skoolQueriesReasonContainer', error: 'skoolQueriesError', textareaName: 'skoolQueriesReason' },
+            { cb: 'newMembersDM', container: 'newMembersDMReasonContainer', error: 'newMembersDMError', textareaName: 'newMembersDMReason' },
+            { cb: 'churnedDM', container: 'churnedDMReasonContainer', error: 'churnedDMError', textareaName: 'churnedDMReason' },
+            { cb: 'repliesFree', container: 'repliesFreeReasonContainer', error: 'repliesFreeError', textareaName: 'repliesFreeReason' },
+            { cb: 'makeCommunity', container: 'makeCommunityReasonContainer', error: 'makeCommunityError', textareaName: 'makeCommunityReason' },
+            { cb: 'syncManagementBoard', container: 'syncManagementBoardReasonContainer', error: 'syncManagementBoardError', textareaName: 'syncManagementBoardReason' },
+        ];
+
+        simpleReasonFields.forEach(field => {
+            const checkbox = document.getElementById(field.cb);
+            checkbox.addEventListener('change', () => toggleSimpleReasonTextarea(field.cb, field.container, field.error, field.textareaName));
+            toggleSimpleReasonTextarea(field.cb, field.container, field.error, field.textareaName); // Initial state
+        });
+        
+        // --- Setup for New Members Post special toggle ---
+        document.getElementById('newMembersPostCheck').addEventListener('change', toggleNewMembersPost);
+        toggleNewMembersPost(); // Initial state: checkbox is unchecked, so radioContainer will be hidden, reasonContainer shown.
+
+        // --- Setup for conditional elements (primary if checked, reason if not) ---
+        // Note: For elements that are not textareas (like radioContainer), textareaName args will be null.
+        const conditionalFields = [
+            { cb: 'makeBlueprint', primaryEl: 'makeBlueprintStatusContainer', reasonEl: 'makeBlueprintReasonContainer', error: 'makeBlueprintError', primaryTN: 'makeBlueprintStatus', reasonTN: 'makeBlueprintReason' },
+            { cb: 'n8nBlueprint', primaryEl: 'n8nBlueprintStatusContainer', reasonEl: 'n8nBlueprintReasonContainer', error: 'n8nBlueprintError', primaryTN: 'n8nBlueprintStatus', reasonTN: 'n8nBlueprintReason' },
+            { cb: 'videoPost', primaryEl: 'videoPostDetailsContainer', reasonEl: 'videoPostReasonContainer', error: 'videoPostError', primaryTN: 'videoPostDetails', reasonTN: 'videoPostReason' },
+            { cb: 'freeSkoolEngagement', primaryEl: 'freeSkoolEngagementStrategyContainer', reasonEl: 'freeSkoolEngagementReasonContainer', error: 'freeSkoolEngagementError', primaryTN: 'freeSkoolEngagementStrategy', reasonTN: 'freeSkoolEngagementReason' },
+            { cb: 'paidSkoolIdea', primaryEl: 'paidSkoolIdeaDescriptionContainer', reasonEl: 'paidSkoolIdeaReasonContainer', error: 'paidSkoolIdeaError', primaryTN: 'paidSkoolIdeaDescription', reasonTN: 'paidSkoolIdeaReason' },
+        ];
+
+        conditionalFields.forEach(field => {
+            const checkbox = document.getElementById(field.cb);
+            checkbox.addEventListener('change', () => toggleConditionalElements(field.cb, field.primaryEl, field.reasonEl, field.error, field.primaryTN, field.reasonTN));
+            toggleConditionalElements(field.cb, field.primaryEl, field.reasonEl, field.error, field.primaryTN, field.reasonTN); // Initial state
+        });
+        
+        // Add character counters and input listeners to all textareas
+        document.querySelectorAll('textarea').forEach(textarea => {
+            const counterId = textarea.parentElement.querySelector('.char-counter')?.id;
+            if (counterId) {
+                updateCharCount(textarea, counterId); // Initial count
+                textarea.addEventListener('input', function() {
+                    updateCharCount(this, counterId);
+                    this.classList.remove('error-field');
+                    const formSection = this.closest('.form-section');
+                    if (formSection) {
+                        const errorDiv = formSection.querySelector('.error');
+                        if (errorDiv) errorDiv.textContent = '';
+                    }
+                });
+            }
+        });
     });
 
-    // Form validation and submission
     document.getElementById('dailyTaskForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Clear all previous errors
-      document.querySelectorAll('.error').forEach(errorDiv => {
-        errorDiv.textContent = '';
-      });
-      document.querySelectorAll('textarea').forEach(textarea => {
-        textarea.classList.remove('error-field');
-      });
-      document.getElementById('submitMessage').innerHTML = '';
-      
-      let isValid = true;
-      const errors = [];
-
-      // Validate New Members Post
-      const newMembersPostCheck = document.getElementById('newMembersPostCheck');
-      const newMembersType = document.querySelector('input[name="newMembersType"]:checked');
-      const newMembersPostReason = document.querySelector('textarea[name="newMembersPostReason"]');
-      const newMembersPostError = document.getElementById('newMembersPostError');
-
-      if (newMembersPostCheck.checked && !newMembersType) {
-        isValid = false;
-        newMembersPostError.textContent = 'Please select the type of post (Tuesday Training Post or Normal Post)';
-      } else if (!newMembersPostCheck.checked && !newMembersPostReason.value.trim()) {
-        isValid = false;
-        newMembersPostError.textContent = 'Please explain why you didn\'t post for new members';
-        newMembersPostReason.classList.add('error-field');
-      }
-
-      // Validate mandatory fields that require explanation when not checked
-      const mandatoryFields = [
-        { checkbox: 'skoolQueries', textarea: 'skoolQueriesReason', label: 'Skool Queries Post + DM', errorId: 'skoolQueriesError' },
-        { checkbox: 'newMembersDM', textarea: 'newMembersDMReason', label: 'New Members DM', errorId: 'newMembersDMError' },
-        { checkbox: 'churnedDM', textarea: 'churnedDMReason', label: 'Churned or Cancelling DM', errorId: 'churnedDMError' },
-        { checkbox: 'repliesFree', textarea: 'repliesFreeReason', label: 'Replies to Free Skool Members', errorId: 'repliesFreeError' },
-        { checkbox: 'makeCommunity', textarea: 'makeCommunityReason', label: 'Make.com Community', errorId: 'makeCommunityError' },
-        { checkbox: 'makeBlueprint', textarea: 'makeBlueprintReason', label: 'Make.com Blueprint', errorId: 'makeBlueprintError' },
-        { checkbox: 'n8nBlueprint', textarea: 'n8nBlueprintReason', label: 'n8n Blueprint', errorId: 'n8nBlueprintError' },
-        { checkbox: 'syncManagementBoard', textarea: 'syncManagementBoardReason', label: 'Sync New Members in Management Board', errorId: 'syncManagementBoardError' } // New field
-      ];
-
-      mandatoryFields.forEach(field => {
-        const checkbox = document.getElementById(field.checkbox);
-        const textarea = document.querySelector(`textarea[name="${field.textarea}"]`);
-        const errorDiv = document.getElementById(field.errorId);
+        e.preventDefault();
         
-        if (!checkbox.checked && !textarea.value.trim()) {
-          isValid = false;
-          errorDiv.textContent = `Please explain why you didn't complete this task`;
-          textarea.classList.add('error-field');
+        document.querySelectorAll('.error').forEach(errorDiv => errorDiv.textContent = '');
+        document.querySelectorAll('textarea').forEach(textarea => textarea.classList.remove('error-field'));
+        document.getElementById('submitMessage').innerHTML = '';
+        
+        let isValid = true;
+
+        function validateSimpleReasonField(checkboxId, reasonTextareaName, errorId, errorMessage) {
+            const checkbox = document.getElementById(checkboxId);
+            const reasonTextarea = document.querySelector(`textarea[name="${reasonTextareaName}"]`);
+            const errorDiv = document.getElementById(errorId);
+            if (!checkbox.checked && (!reasonTextarea || !reasonTextarea.value.trim())) {
+                isValid = false;
+                errorDiv.textContent = errorMessage;
+                if (reasonTextarea) reasonTextarea.classList.add('error-field');
+            }
         }
-      });
 
-      // Validate Video Post - only require explanation if not checked
-      const videoPost = document.getElementById('videoPost');
-      const videoPostExplanation = document.querySelector('textarea[name="videoPostExplanation"]');
-      const videoPostError = document.getElementById('videoPostError');
-      
-      if (!videoPost.checked && !videoPostExplanation.value.trim()) {
-        isValid = false;
-        videoPostError.textContent = 'Please explain why you didn\'t post videos';
-        videoPostExplanation.classList.add('error-field');
-      }
-      
-      // Validate optional fields that require explanation IF CHECKED AND TEXTAREA IS EMPTY
-      // Free Skool Engagement
-      const freeSkoolEngagementCheck = document.getElementById('freeSkoolEngagement');
-      const freeSkoolEngagementStrategy = document.querySelector('textarea[name="freeSkoolEngagementStrategy"]');
-      // No specific error div for this, but could add one if needed for this logic.
-      // For now, if checked, strategy is expected. If not, this is fine.
-      // If we want to make it mandatory if checked:
-      // if (freeSkoolEngagementCheck.checked && !freeSkoolEngagementStrategy.value.trim()) {
-      //   isValid = false;
-      //   // Add an error message display mechanism if desired
-      //   freeSkoolEngagementStrategy.classList.add('error-field');
-      // }
+        function validateConditionalField(checkboxId, primaryTextareaName, reasonTextareaName, errorId, primaryMessage, reasonMessage) {
+            const checkbox = document.getElementById(checkboxId);
+            const primaryTextarea = document.querySelector(`textarea[name="${primaryTextareaName}"]`);
+            const reasonTextarea = document.querySelector(`textarea[name="${reasonTextareaName}"]`);
+            const errorDiv = document.getElementById(errorId);
 
-
-      // Paid Skool Idea
-      const paidSkoolIdeaCheck = document.getElementById('paidSkoolIdea');
-      const paidSkoolIdeaDescription = document.querySelector('textarea[name="paidSkoolIdeaDescription"]');
-      // Similar to above, if checked, description is expected.
-      // if (paidSkoolIdeaCheck.checked && !paidSkoolIdeaDescription.value.trim()) {
-      //   isValid = false;
-      //   // Add an error message display mechanism if desired
-      //   paidSkoolIdeaDescription.classList.add('error-field');
-      // }
-
-
-      if (!isValid) {
-        document.getElementById('submitMessage').innerHTML = '<div class="form-error">Please fix the errors above before submitting</div>';
-        // Scroll to first error
-        const firstError = document.querySelector('.error:not(:empty), .error-field');
-        if (firstError) {
-          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (checkbox.checked && (!primaryTextarea || !primaryTextarea.value.trim())) {
+                isValid = false;
+                errorDiv.textContent = primaryMessage;
+                if (primaryTextarea) primaryTextarea.classList.add('error-field');
+            } else if (!checkbox.checked && (!reasonTextarea || !reasonTextarea.value.trim())) {
+                isValid = false;
+                errorDiv.textContent = reasonMessage;
+                if (reasonTextarea) reasonTextarea.classList.add('error-field');
+            }
         }
-        return;
-      }
 
-      // Collect form data and submit
-      const formData = collectFormData();
-      submitToWebhook(formData);
+        // --- Simple Reason Validations ---
+        validateSimpleReasonField('skoolQueries', 'skoolQueriesReason', 'skoolQueriesError', 'If not completed, please explain why.');
+        validateSimpleReasonField('newMembersDM', 'newMembersDMReason', 'newMembersDMError', 'If DMs not sent, please explain why.');
+        validateSimpleReasonField('churnedDM', 'churnedDMReason', 'churnedDMError', 'If DMs not sent, please explain why.');
+        validateSimpleReasonField('repliesFree', 'repliesFreeReason', 'repliesFreeError', 'If not replied, please explain why.');
+        validateSimpleReasonField('makeCommunity', 'makeCommunityReason', 'makeCommunityError', 'If not engaged, please explain why.');
+        validateSimpleReasonField('syncManagementBoard', 'syncManagementBoardReason', 'syncManagementBoardError', 'If not synced, please explain why.');
+
+        // --- New Members Post (special validation) ---
+        const newMembersPostCheck = document.getElementById('newMembersPostCheck');
+        const newMembersType = document.querySelector('input[name="newMembersType"]:checked');
+        const newMembersPostReason = document.querySelector('textarea[name="newMembersPostReason"]');
+        const newMembersPostError = document.getElementById('newMembersPostError');
+        if (newMembersPostCheck.checked && !newMembersType) {
+            isValid = false;
+            newMembersPostError.textContent = 'Please select the type of post.';
+        } else if (!newMembersPostCheck.checked && (!newMembersPostReason || !newMembersPostReason.value.trim())) {
+            isValid = false;
+            newMembersPostError.textContent = 'If not posted, please explain why.';
+            if (newMembersPostReason) newMembersPostReason.classList.add('error-field');
+        }
+        
+        // --- Conditional Validations ---
+        validateConditionalField('makeBlueprint', 'makeBlueprintStatus', 'makeBlueprintReason', 'makeBlueprintError', 'Please explain the blueprint status.', 'If not worked on, please explain why.');
+        validateConditionalField('n8nBlueprint', 'n8nBlueprintStatus', 'n8nBlueprintReason', 'n8nBlueprintError', 'Please explain the blueprint status.', 'If not worked on, please explain why.');
+        validateConditionalField('videoPost', 'videoPostDetails', 'videoPostReason', 'videoPostError', 'Please share group names and topics.', 'If not posted, please explain why.');
+        validateConditionalField('freeSkoolEngagement', 'freeSkoolEngagementStrategy', 'freeSkoolEngagementReason', 'freeSkoolEngagementError', 'Please describe your engagement strategy.', 'If no idea, please explain why.');
+        validateConditionalField('paidSkoolIdea', 'paidSkoolIdeaDescription', 'paidSkoolIdeaReason', 'paidSkoolIdeaError', 'Please describe your Premium Skool idea.', 'If no idea, please explain why.');
+
+
+        if (!isValid) {
+            document.getElementById('submitMessage').innerHTML = '<div class="form-error">Please fix the errors above before submitting.</div>';
+            const firstErrorField = document.querySelector('.error:not(:empty), textarea.error-field');
+            if (firstErrorField) {
+                 const firstErrorElement = firstErrorField.classList.contains('error') ? firstErrorField : firstErrorField.closest('.form-section').querySelector('.error');
+                 if (firstErrorElement) {
+                    firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                 } else {
+                    firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                 }
+            }
+            return;
+        }
+
+        const formData = collectFormData();
+        submitToWebhook(formData);
     });
 
     function collectFormData() {
-      const data = {
-        timestamp: new Date().toISOString(),
-        tasks: {
-          skoolQueries: {
-            completed: document.getElementById('skoolQueries').checked,
-            reason: document.querySelector('textarea[name="skoolQueriesReason"]').value || null
-          },
-          newMembersPost: {
-            completed: document.getElementById('newMembersPostCheck').checked,
-            type: document.querySelector('input[name="newMembersType"]:checked')?.value || null,
-            reason: document.querySelector('textarea[name="newMembersPostReason"]').value || null
-          },
-          newMembersDM: {
-            completed: document.getElementById('newMembersDM').checked,
-            reason: document.querySelector('textarea[name="newMembersDMReason"]').value || null
-          },
-          churnedDM: {
-            completed: document.getElementById('churnedDM').checked,
-            reason: document.querySelector('textarea[name="churnedDMReason"]').value || null
-          },
-          repliesFree: {
-            completed: document.getElementById('repliesFree').checked,
-            reason: document.querySelector('textarea[name="repliesFreeReason"]').value || null
-          },
-          makeCommunity: {
-            completed: document.getElementById('makeCommunity').checked,
-            reason: document.querySelector('textarea[name="makeCommunityReason"]').value || null
-          },
-          makeBlueprint: {
-            completed: document.getElementById('makeBlueprint').checked,
-            reason: document.querySelector('textarea[name="makeBlueprintReason"]').value || null
-          },
-          n8nBlueprint: {
-            completed: document.getElementById('n8nBlueprint').checked,
-            reason: document.querySelector('textarea[name="n8nBlueprintReason"]').value || null
-          },
-          syncManagementBoard: { // New field
-            completed: document.getElementById('syncManagementBoard').checked,
-            reason: document.querySelector('textarea[name="syncManagementBoardReason"]').value || null
-          },
-          videoPost: {
-            completed: document.getElementById('videoPost').checked,
-            explanation: document.querySelector('textarea[name="videoPostExplanation"]').value
-          },
-          freeSkoolEngagement: {
-            completed: document.getElementById('freeSkoolEngagement').checked,
-            strategy: document.querySelector('textarea[name="freeSkoolEngagementStrategy"]').value || null
-          },
-          paidSkoolIdea: {
-            completed: document.getElementById('paidSkoolIdea').checked,
-            description: document.querySelector('textarea[name="paidSkoolIdeaDescription"]').value || null
-          }
-        },
-        additionalNotes: document.querySelector('textarea[name="additionalNotes"]').value || null
-      };
-
-      return data;
+        const data = {
+            timestamp: new Date().toISOString(),
+            tasks: {
+                skoolQueries: {
+                    completed: document.getElementById('skoolQueries').checked,
+                    reason: document.getElementById('skoolQueries').checked ? null : document.querySelector('textarea[name="skoolQueriesReason"]').value
+                },
+                newMembersPost: {
+                    completed: document.getElementById('newMembersPostCheck').checked,
+                    type: document.getElementById('newMembersPostCheck').checked ? document.querySelector('input[name="newMembersType"]:checked')?.value : null,
+                    reason: document.getElementById('newMembersPostCheck').checked ? null : document.querySelector('textarea[name="newMembersPostReason"]').value
+                },
+                newMembersDM: {
+                    completed: document.getElementById('newMembersDM').checked,
+                    reason: document.getElementById('newMembersDM').checked ? null : document.querySelector('textarea[name="newMembersDMReason"]').value
+                },
+                churnedDM: {
+                    completed: document.getElementById('churnedDM').checked,
+                    reason: document.getElementById('churnedDM').checked ? null : document.querySelector('textarea[name="churnedDMReason"]').value
+                },
+                repliesFree: {
+                    completed: document.getElementById('repliesFree').checked,
+                    reason: document.getElementById('repliesFree').checked ? null : document.querySelector('textarea[name="repliesFreeReason"]').value
+                },
+                makeCommunity: {
+                    completed: document.getElementById('makeCommunity').checked,
+                    reason: document.getElementById('makeCommunity').checked ? null : document.querySelector('textarea[name="makeCommunityReason"]').value
+                },
+                makeBlueprint: {
+                    completed: document.getElementById('makeBlueprint').checked,
+                    status: document.getElementById('makeBlueprint').checked ? document.querySelector('textarea[name="makeBlueprintStatus"]').value : null,
+                    reason: document.getElementById('makeBlueprint').checked ? null : document.querySelector('textarea[name="makeBlueprintReason"]').value
+                },
+                n8nBlueprint: {
+                    completed: document.getElementById('n8nBlueprint').checked,
+                    status: document.getElementById('n8nBlueprint').checked ? document.querySelector('textarea[name="n8nBlueprintStatus"]').value : null,
+                    reason: document.getElementById('n8nBlueprint').checked ? null : document.querySelector('textarea[name="n8nBlueprintReason"]').value
+                },
+                syncManagementBoard: {
+                    completed: document.getElementById('syncManagementBoard').checked,
+                    reason: document.getElementById('syncManagementBoard').checked ? null : document.querySelector('textarea[name="syncManagementBoardReason"]').value
+                },
+                videoPost: {
+                    completed: document.getElementById('videoPost').checked,
+                    details: document.getElementById('videoPost').checked ? document.querySelector('textarea[name="videoPostDetails"]').value : null,
+                    reason: document.getElementById('videoPost').checked ? null : document.querySelector('textarea[name="videoPostReason"]').value
+                },
+                freeSkoolEngagement: {
+                    hasIdea: document.getElementById('freeSkoolEngagement').checked,
+                    strategy: document.getElementById('freeSkoolEngagement').checked ? document.querySelector('textarea[name="freeSkoolEngagementStrategy"]').value : null,
+                    reasonNoIdea: document.getElementById('freeSkoolEngagement').checked ? null : document.querySelector('textarea[name="freeSkoolEngagementReason"]').value
+                },
+                paidSkoolIdea: {
+                    hasIdea: document.getElementById('paidSkoolIdea').checked,
+                    description: document.getElementById('paidSkoolIdea').checked ? document.querySelector('textarea[name="paidSkoolIdeaDescription"]').value : null,
+                    reasonNoIdea: document.getElementById('paidSkoolIdea').checked ? null : document.querySelector('textarea[name="paidSkoolIdeaReason"]').value
+                }
+            },
+            additionalNotes: document.querySelector('textarea[name="additionalNotes"]').value || null
+        };
+        return data;
     }
 
     async function submitToWebhook(formData) {
-      const submitButton = document.querySelector('button[type="submit"]');
-      const messageDiv = document.getElementById('submitMessage');
+        const submitButton = document.querySelector('button[type="submit"]');
+        const messageDiv = document.getElementById('submitMessage');
+        const webhookUrl = 'https://hook.eu1.make.com/ii87emkdx5dqfahvsj8v8mie7lwiwpfq'; 
       
-      // Replace with your actual webhook URL
-      const webhookUrl = 'https://hook.eu1.make.com/ii87emkdx5dqfahvsj8v8mie7lwiwpfq'; // Replace with your actual webhook URL
-      
-      try {
-        submitButton.disabled = true;
-        submitButton.innerHTML = '<span class="loading"></span>Submitting...';
-        
-        const response = await fetch(webhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData)
-        });
+        try {
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="loading"></span>Submitting...';
+            
+            const response = await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
 
-        if (response.ok) {
-          messageDiv.innerHTML = '<div class="success">✓ Form submitted successfully!</div>';
-          document.getElementById('dailyTaskForm').reset();
-          // Reset form to initial state visually
-          // Textareas need to be re-hidden/shown based on reset checkboxes
-          document.querySelectorAll('.form-section input[type="checkbox"]').forEach(cb => {
-            cb.dispatchEvent(new Event('change')); // Trigger change to reset dependent visibility
-          });
-          // Also reset character counters
-          document.querySelectorAll('textarea').forEach(textarea => {
-            const counterId = textarea.parentElement.querySelector('.char-counter')?.id;
-            if (counterId) {
-              updateCharCount(textarea, counterId);
+            if (response.ok) {
+                messageDiv.innerHTML = '<div class="success">✓ Form submitted successfully!</div>';
+                document.getElementById('dailyTaskForm').reset();
+                document.querySelectorAll('.form-section input[type="checkbox"]').forEach(cb => {
+                    cb.dispatchEvent(new Event('change')); 
+                });
+                document.querySelectorAll('textarea').forEach(textarea => {
+                    const counterId = textarea.parentElement.querySelector('.char-counter')?.id;
+                    if (counterId) updateCharCount(textarea, counterId);
+                });
+            } else {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
-          });
-          // For New Members Post radios
-          document.getElementById('newMembersRadioContainer').style.display = 'none';
-
-        } else {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        } catch (error) {
+            console.error('Submission error:', error);
+            messageDiv.innerHTML = '<div class="form-error">❌ Error submitting form. Please check your connection and try again. If the issue persists, contact support.</div>';
+        } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Submit';
         }
-      } catch (error) {
-        console.error('Submission error:', error);
-        messageDiv.innerHTML = '<div class="form-error">❌ Error submitting form. Please check your connection and try again.</div>';
-      } finally {
-        submitButton.disabled = false;
-        submitButton.innerHTML = 'Submit';
-      }
     }
   </script>
 </body>
