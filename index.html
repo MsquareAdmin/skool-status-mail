@@ -411,6 +411,21 @@
         </div>
         <div class="error" id="paidSkoolIdeaError"></div>
       </div>
+       <div class="form-section">
+        <div class="question-header">
+          <label>Was the Latest AI Trends posted this week? <span style="color:#e13b2e">*</span></label>
+          <input type="checkbox" id="aiTrendsUpload" name="aiTrendsUpload">
+        </div>
+
+        <!-- Textarea for "No" -->
+        <div class="textarea-container hidden" id="aiTrendsUploadReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
+          <textarea name="aiTrendsUploadReason" maxlength="2000"></textarea>
+          <div class="char-counter" id="aiTrendsUploadReasonCount">0/2000</div>
+        </div>
+        
+        <div class="error" id="aiTrendsUploadError"></div>
+      </div>
 
       <!-- Additional Notes -->
       <div class="form-section">
@@ -505,13 +520,15 @@
     document.addEventListener('DOMContentLoaded', function() {
         // --- Setup for simple reason toggles ---
         const simpleReasonFields = [
-            { cb: 'skoolQueries', container: 'skoolQueriesReasonContainer', error: 'skoolQueriesError', textareaName: 'skoolQueriesReason' },
-            { cb: 'newMembersDM', container: 'newMembersDMReasonContainer', error: 'newMembersDMError', textareaName: 'newMembersDMReason' },
-            { cb: 'churnedDM', container: 'churnedDMReasonContainer', error: 'churnedDMError', textareaName: 'churnedDMReason' },
-            { cb: 'repliesFree', container: 'repliesFreeReasonContainer', error: 'repliesFreeError', textareaName: 'repliesFreeReason' },
-            { cb: 'makeCommunity', container: 'makeCommunityReasonContainer', error: 'makeCommunityError', textareaName: 'makeCommunityReason' },
-            { cb: 'syncManagementBoard', container: 'syncManagementBoardReasonContainer', error: 'syncManagementBoardError', textareaName: 'syncManagementBoardReason' },
-        ];
+    { cb: 'skoolQueries', container: 'skoolQueriesReasonContainer', error: 'skoolQueriesError', textareaName: 'skoolQueriesReason' },
+    { cb: 'newMembersDM', container: 'newMembersDMReasonContainer', error: 'newMembersDMError', textareaName: 'newMembersDMReason' },
+    { cb: 'churnedDM', container: 'churnedDMReasonContainer', error: 'churnedDMError', textareaName: 'churnedDMReason' },
+    { cb: 'repliesFree', container: 'repliesFreeReasonContainer', error: 'repliesFreeError', textareaName: 'repliesFreeReason' },
+    { cb: 'makeCommunity', container: 'makeCommunityReasonContainer', error: 'makeCommunityError', textareaName: 'makeCommunityReason' },
+    { cb: 'syncManagementBoard', container: 'syncManagementBoardReasonContainer', error: 'syncManagementBoardError', textareaName: 'syncManagementBoardReason' },
+    // ADD THE LINE BELOW
+    { cb: 'aiTrendsUpload', container: 'aiTrendsUploadReasonContainer', error: 'aiTrendsUploadError', textareaName: 'aiTrendsUploadReason' }
+];
 
         simpleReasonFields.forEach(field => {
             const checkbox = document.getElementById(field.cb);
@@ -526,12 +543,13 @@
         // --- Setup for conditional elements (primary if checked, reason if not) ---
         // Note: For elements that are not textareas (like radioContainer), textareaName args will be null.
         const conditionalFields = [
-            { cb: 'makeBlueprint', primaryEl: 'makeBlueprintStatusContainer', reasonEl: 'makeBlueprintReasonContainer', error: 'makeBlueprintError', primaryTN: 'makeBlueprintStatus', reasonTN: 'makeBlueprintReason' },
-            { cb: 'n8nBlueprint', primaryEl: 'n8nBlueprintStatusContainer', reasonEl: 'n8nBlueprintReasonContainer', error: 'n8nBlueprintError', primaryTN: 'n8nBlueprintStatus', reasonTN: 'n8nBlueprintReason' },
-            { cb: 'videoPost', primaryEl: 'videoPostDetailsContainer', reasonEl: 'videoPostReasonContainer', error: 'videoPostError', primaryTN: 'videoPostDetails', reasonTN: 'videoPostReason' },
-            { cb: 'freeSkoolEngagement', primaryEl: 'freeSkoolEngagementStrategyContainer', reasonEl: 'freeSkoolEngagementReasonContainer', error: 'freeSkoolEngagementError', primaryTN: 'freeSkoolEngagementStrategy', reasonTN: 'freeSkoolEngagementReason' },
-            { cb: 'paidSkoolIdea', primaryEl: 'paidSkoolIdeaDescriptionContainer', reasonEl: 'paidSkoolIdeaReasonContainer', error: 'paidSkoolIdeaError', primaryTN: 'paidSkoolIdeaDescription', reasonTN: 'paidSkoolIdeaReason' },
-        ];
+    { cb: 'makeBlueprint', primaryEl: 'makeBlueprintStatusContainer', reasonEl: 'makeBlueprintReasonContainer', error: 'makeBlueprintError', primaryTN: 'makeBlueprintStatus', reasonTN: 'makeBlueprintReason' },
+    { cb: 'n8nBlueprint', primaryEl: 'n8nBlueprintStatusContainer', reasonEl: 'n8nBlueprintReasonContainer', error: 'n8nBlueprintError', primaryTN: 'n8nBlueprintStatus', reasonTN: 'n8nBlueprintReason' },
+    { cb: 'videoPost', primaryEl: 'videoPostDetailsContainer', reasonEl: 'videoPostReasonContainer', error: 'videoPostError', primaryTN: 'videoPostDetails', reasonTN: 'videoPostReason' },
+    { cb: 'freeSkoolEngagement', primaryEl: 'freeSkoolEngagementStrategyContainer', reasonEl: 'freeSkoolEngagementReasonContainer', error: 'freeSkoolEngagementError', primaryTN: 'freeSkoolEngagementStrategy', reasonTN: 'freeSkoolEngagementReason' },
+    { cb: 'paidSkoolIdea', primaryEl: 'paidSkoolIdeaDescriptionContainer', reasonEl: 'paidSkoolIdeaReasonContainer', error: 'paidSkoolIdeaError', primaryTN: 'paidSkoolIdeaDescription', reasonTN: 'paidSkoolIdeaReason' }
+    // AI Trends entry is now GONE from here
+];
 
         conditionalFields.forEach(field => {
             const checkbox = document.getElementById(field.cb);
@@ -622,8 +640,7 @@
         validateConditionalField('videoPost', 'videoPostDetails', 'videoPostReason', 'videoPostError', 'Please share group names and topics.', 'If not posted, please explain why.');
         validateConditionalField('freeSkoolEngagement', 'freeSkoolEngagementStrategy', 'freeSkoolEngagementReason', 'freeSkoolEngagementError', 'Please describe your engagement strategy.', 'If no idea, please explain why.');
         validateConditionalField('paidSkoolIdea', 'paidSkoolIdeaDescription', 'paidSkoolIdeaReason', 'paidSkoolIdeaError', 'Please describe your Premium Skool idea.', 'If no idea, please explain why.');
-
-
+        validateSimpleReasonField('aiTrendsUpload', 'aiTrendsUploadReason', 'aiTrendsUploadError', 'If not posted, please explain why.');
         if (!isValid) {
             document.getElementById('submitMessage').innerHTML = '<div class="form-error">Please fix the errors above before submitting.</div>';
             const firstErrorField = document.querySelector('.error:not(:empty), textarea.error-field');
@@ -699,7 +716,11 @@
                     hasIdea: document.getElementById('paidSkoolIdea').checked,
                     description: document.getElementById('paidSkoolIdea').checked ? document.querySelector('textarea[name="paidSkoolIdeaDescription"]').value : null,
                     reasonNoIdea: document.getElementById('paidSkoolIdea').checked ? null : document.querySelector('textarea[name="paidSkoolIdeaReason"]').value
-                }
+                },
+                aiTrendsUpload: {
+    completed: document.getElementById('aiTrendsUpload').checked,
+    reason: document.getElementById('aiTrendsUpload').checked ? null : document.querySelector('textarea[name="aiTrendsUploadReason"]').value
+}
             },
             additionalNotes: document.querySelector('textarea[name="additionalNotes"]').value || null
         };
