@@ -426,7 +426,19 @@
         
         <div class="error" id="aiTrendsUploadError"></div>
       </div>
-
+      <!-- Weekly Automation Check-in Post -->
+      <div class="form-section">
+        <div class="question-header">
+          <label>Have you posted Weekly Automation Check-in Post on Monday? <span style="color:#e13b2e">*</span></label>
+          <input type="checkbox" id="automationCheckin" name="automationCheckin">
+        </div>
+        <div class="textarea-container hidden" id="automationCheckinReasonContainer">
+          <div class="desc" style="font-weight:400;">If not, please explain why:</div>
+          <textarea name="automationCheckinReason" maxlength="2000"></textarea>
+          <div class="char-counter" id="automationCheckinReasonCount">0/2000</div>
+        </div>
+        <div class="error" id="automationCheckinError"></div>
+      </div>
       <!-- Additional Notes -->
       <div class="form-section">
         <label style="font-weight: 600; color: #23272f; margin-bottom: 4px; display: block;">Additional Notes</label>
@@ -527,7 +539,8 @@
     { cb: 'makeCommunity', container: 'makeCommunityReasonContainer', error: 'makeCommunityError', textareaName: 'makeCommunityReason' },
     { cb: 'syncManagementBoard', container: 'syncManagementBoardReasonContainer', error: 'syncManagementBoardError', textareaName: 'syncManagementBoardReason' },
     // ADD THE LINE BELOW
-    { cb: 'aiTrendsUpload', container: 'aiTrendsUploadReasonContainer', error: 'aiTrendsUploadError', textareaName: 'aiTrendsUploadReason' }
+    { cb: 'aiTrendsUpload', container: 'aiTrendsUploadReasonContainer', error: 'aiTrendsUploadError', textareaName: 'aiTrendsUploadReason' },
+            { cb: 'automationCheckin', container: 'automationCheckinReasonContainer', error: 'automationCheckinError', textareaName: 'automationCheckinReason' }
 ];
 
         simpleReasonFields.forEach(field => {
@@ -619,7 +632,7 @@
         validateSimpleReasonField('repliesFree', 'repliesFreeReason', 'repliesFreeError', 'If not replied, please explain why.');
         validateSimpleReasonField('makeCommunity', 'makeCommunityReason', 'makeCommunityError', 'If not engaged, please explain why.');
         validateSimpleReasonField('syncManagementBoard', 'syncManagementBoardReason', 'syncManagementBoardError', 'If not synced, please explain why.');
-
+        validateSimpleReasonField('automationCheckin', 'automationCheckinReason', 'automationCheckinError', 'If not posted, please explain why.');
         // --- New Members Post (special validation) ---
         const newMembersPostCheck = document.getElementById('newMembersPostCheck');
         const newMembersType = document.querySelector('input[name="newMembersType"]:checked');
@@ -720,7 +733,11 @@
                 aiTrendsUpload: {
     completed: document.getElementById('aiTrendsUpload').checked,
     reason: document.getElementById('aiTrendsUpload').checked ? null : document.querySelector('textarea[name="aiTrendsUploadReason"]').value
-}
+},
+                automationCheckin: {
+                    completed: document.getElementById('automationCheckin').checked,
+                    reason: document.getElementById('automationCheckin').checked ? null : document.querySelector('textarea[name="automationCheckinReason"]').value
+                }
             },
             additionalNotes: document.querySelector('textarea[name="additionalNotes"]').value || null
         };
